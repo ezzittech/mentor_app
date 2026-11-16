@@ -18,12 +18,14 @@ export default function MenteeDashboard() {
     const [assessment, ms, requests] = await Promise.all([api.myAssessment(), api.currentMentorship(), api.myRequests()]);
     const bundle = ms ? await api.planForMentorship(ms.id) : null;
     const sessions = await api.listSessions({ role: 'mentee' });
-    return { assessment, ms, requests, bundle, sessions };
+    // RLS returns only notes the supervisor shared with the mentee
+    const notes = ms ? (await api.listNotes(ms.id)).filter((n) => n.visibility === 'mentee') : [];
+    return { assessment, ms, requests, bundle, sessions, notes };
   });
   const first = user.name.split(' ')[0];
 
   if (q.loading || !q.data) return <Page><Skeleton className="h-56 mb-8" /><div className="grid md:grid-cols-4 gap-4"><Skeleton /><Skeleton /><Skeleton /><Skeleton /></div></Page>;
-  const { assessment, ms, requests, bundle, sessions } = q.data;
+  const { assessment, ms, requests, bundle, sessions, notes } = q.data;
   const plan = bundle?.plan;
   const tasks = bundle?.tasks ?? [];
   const upcoming = sessions.filter((s) => new Date(s.starts_at) > new Date() && !['cancelled'].includes(s.status));
@@ -100,6 +102,9 @@ export default function MenteeDashboard() {
             </div>
           )}
           {plan && <Card className="text-center"><Ring value={progress} sub={t('of plan', 'من الخطة')} /><p className="font-extrabold text-slate-900 mt-3">{plan.title}</p><Link to="/app/mentee/plan" className="text-sm font-bold text-indigo-600 mt-2 inline-block">{t('Open plan', 'فتح الخطة')} →</Link></Card>}
+          {notes.length > 0 && <Card title={t('From your supervisor', 'من مشرفك')}>
+            {notes.slice(0, 3).map((n) => <div key={n.id} className="p-3 rounded-2xl bg-amber-50 border border-amber-100 mb-2 last:mb-0"><p className="text-sm text-slate-700">{n.body}</p><p className="text-[11px] text-slate-400 mt-1">{n.author?.full_name} · {fmtDateTime(n.created_at)}</p></div>)}
+          </Card>}
           <Card title={t('Upcoming sessions', 'الجلسات القادمة')}>
             {!upcoming.length ? <p className="text-sm text-slate-400">{t('No sessions scheduled.', 'لا توجد جلسات مجدولة.')}</p> : upcoming.slice(0, 3).map((s) => (
               <div key={s.id} className="flex items-center gap-3 py-3 border-b border-slate-50 last:border-0">

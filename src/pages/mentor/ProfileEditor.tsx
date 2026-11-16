@@ -6,7 +6,7 @@ import { LANG_NAME } from '../../components/MentorCard';
 import * as api from '../../lib/api';
 import { useAsync } from '../../lib/useAsync';
 import { useAuth } from '../../lib/auth';
-import { money, slugify } from '../../lib/format';
+import { mentorSlug, money, slugify } from '../../lib/format';
 import { useLang, useT } from '../../lib/i18n';
 import type { Mentor, Package } from '../../lib/types';
 
@@ -51,7 +51,7 @@ export default function ProfileEditor() {
   const [del, setDel] = useState<number | null>(null);
   useEffect(() => {
     const x = q.data?.m;
-    setM(x ?? { full_name: user.name, slug: slugify(user.name), languages: [lang], accepting: true, years_experience: 3, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone });
+    setM(x ?? { full_name: user.name, slug: mentorSlug(user.name), languages: [lang], accepting: true, years_experience: 3, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone });
     setCatIds(x?.categories.map((c) => c.id) ?? []); setSkills(x?.skills ?? []);
   }, [q.data]); // eslint-disable-line react-hooks/exhaustive-deps
   if (q.loading || !q.data) return <Page><Spinner /></Page>;

@@ -11,7 +11,12 @@
 2. انسخ محتوى الملف `supabase/migrations/0001_init.sql` كاملًا، والصقه، ثم اضغط **Run**.
 3. افتح استعلامًا جديدًا، والصق محتوى `supabase/seed.sql` (التصنيفات والمهارات وأسئلة التقييم والإعدادات) ثم **Run**.
 
-> الملفات قابلة لإعادة التشغيل بأمان، ومختبرة آليًا (`scripts/test-db.sh`).
+4. شغّل `supabase/migrations/0002_repair_legacy_types.sql` ثم `0003_service_role_maintenance.sql`.
+   - إذا كان مشروعك يحتوي على بقايا من محاولة سابقة (ظهر خطأ مثل `invalid input value for enum`): شغّل `0002` أولًا، ثم أعد تشغيل `0001`، ثم `0003`.
+5. شغّل `supabase/verify.sql` — يجب أن تكون كل الأسطر ✅، وأي ❌ يذكر بالضبط ما الناقص.
+6. (اختياري للاختبار) `supabase/demo_accounts.sql` ينشئ حسابًا لكل دور بكلمة المرور `Murshid@2026` — واحذفها قبل الإطلاق بـ `supabase/demo_accounts_remove.sql`.
+
+> الملفات قابلة لإعادة التشغيل بأمان، ومختبرة آليًا (`scripts/test-db.sh`). سيناريوهات الاختبار اليدوي: `docs/TEST_SCENARIOS.md`.
 
 ## 3) إعداد المصادقة
 **Authentication → URL Configuration**

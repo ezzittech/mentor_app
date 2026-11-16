@@ -26,7 +26,7 @@ Without Supabase keys the app runs in **preview mode** with sample data — open
 ## Tests
 ```bash
 npm run build                 # type-check + production build
-./scripts/test-db.sh          # migration + 44 RLS / workflow checks against a local Postgres 16
+./scripts/test-db.sh          # all migrations + 46 RLS / workflow / demo-account checks against a local Postgres 16
 ```
 
 ## Deploy

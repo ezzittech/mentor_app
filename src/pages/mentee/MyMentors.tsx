@@ -62,7 +62,7 @@ export default function MyMentors() {
         <form className="space-y-5" onSubmit={async (e) => { e.preventDefault(); if (await act(() => api.leaveReview(review!.id, review!.mentor_id, rating, comment), t('Thanks for your review!', 'شكرًا لتقييمك!'))) setReview(null); }}>
           <div className="text-center"><Stars value={rating} size={32} onChange={setRating} /></div>
           <Field label={t('Your experience', 'تجربتك')}><textarea required minLength={10} rows={4} value={comment} onChange={(e) => setComment(e.target.value)} className={inputCls} /></Field>
-          <p className="text-xs text-slate-400">{t('Reviews are public after moderation. The mentor cannot edit your review.', 'تُنشر التقييمات بعد المراجعة، ولا يستطيع المرشد تعديلها.')}</p>
+          <p className="text-xs text-slate-400">{t('Your review appears on the mentor’s public profile (first name only). The mentor cannot edit it; admins can hide abusive reviews.', 'يظهر تقييمك في ملف المرشد العام (بالاسم الأول فقط). لا يستطيع المرشد تعديله، ويمكن للإدارة إخفاء التقييمات المسيئة.')}</p>
           <button className={`${btnPrimary} w-full`}>{t('Submit review', 'إرسال التقييم')}</button>
         </form>
       </Modal>

@@ -19,5 +19,7 @@ export const ago = (d: string) => {
 };
 export const daysUntil = (d?: string | null) => (d ? Math.ceil((new Date(d).getTime() - Date.now()) / 86400000) : null);
 export const initials = (name: string) => (name || 'U').split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
-export const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9؀-ۿ]+/g, '-').replace(/^-|-$/g, '');
+/** URL slug: latin letters, digits and dashes only (matches the DB check). Arabic-only names fall back to "mentor-xxxx". */
+export const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+export const mentorSlug = (name: string) => slugify(name) || `mentor-${Math.random().toString(36).slice(2, 8)}`;
 export const browserTz = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
