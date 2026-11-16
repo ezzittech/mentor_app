@@ -28,9 +28,9 @@ jobs:
         env:
           # When a custom domain is connected, set this to "/"
           BASE_PATH: /${{ github.event.repository.name }}/
-          # Public values only (Settings → Secrets and variables → Actions → Variables)
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          # Public values only — read from repository Secrets or Variables (Settings → Secrets and variables → Actions)
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || vars.VITE_SUPABASE_ANON_KEY }}
           VITE_DEMO_MODE: ${{ vars.VITE_DEMO_MODE || 'true' }}
       # SPA fallback so deep links like /mentors/omar work after refresh
       - run: cp dist/index.html dist/404.html && touch dist/.nojekyll
