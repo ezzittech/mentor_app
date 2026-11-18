@@ -29,8 +29,12 @@ npm run build                 # type-check + production build
 ./scripts/test-db.sh          # all migrations + 46 RLS / workflow / demo-account checks against a local Postgres 16
 ```
 
+```bash
+./scripts/journey.sh          # full mentee journey simulation: prints OK / GAP / FAIL per step
+```
+
 ## Deploy
 Push to `main` → GitHub Actions builds and deploys to GitHub Pages (`.github/workflows/deploy.yml`).
 One-time: **Settings → Pages → Source: GitHub Actions**, and add the `VITE_SUPABASE_*` repository variables.
 
-See also: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [AGENTS.md](AGENTS.md) · [docs/ROADMAP.md](docs/ROADMAP.md)
+See also: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [AGENTS.md](AGENTS.md) · [docs/ROADMAP.md](docs/ROADMAP.md) · [docs/JOURNEY_REPORT.md](docs/JOURNEY_REPORT.md) · [docs/PASSPORT_PLAN.md](docs/PASSPORT_PLAN.md)
